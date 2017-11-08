@@ -615,7 +615,7 @@ gui.createButton("Reset", Rect(120, 620, 60, 30), function () {
 	destoy_elements(T_Banner_List);
 	destoy_elements(T_Effect_List);
 	util.download({
-		"url": API_URL + "reset",
+		"url": API_URL + "command/reset",
 		"type": "text",
 		"success": function (rs) {
 			camera.flyTo({
