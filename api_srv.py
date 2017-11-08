@@ -6,57 +6,53 @@ from flask import Flask
 from flask_cors import CORS
 from types import NoneType
 import pandas as pd
+import pickledb
 
-_FIRE_STATUS = 'fire_recovery'
-_GAS_STATUS = 'gas_recovery'
+# init key-value store
+_DB = pickledb.load('alarm.db', False) 
 
 # innit flash app and backend db connection
 app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/status', methods=['GET'])
 def status():
-    status_msg = "%s|%s"%(_FIRE_STATUS, _GAS_STATUS)
+    status_msg = "%s|%s"%(_DB.get('fire'), _DB.get('gas'))
     app.logger.debug(status_msg)
     return status_msg, 200
 
 @app.route('/fire_alarm', methods=['GET'])
 def fire_alarm():
-    global _FIRE_STATUS
     status_msg = "fire_alarm okey"
-    _FIRE_STATUS = 'fire_alarm'
+    _DB.set('fire', 'fire_alarm')
     app.logger.debug(status_msg)
     return status_msg, 200
 
 @app.route('/fire_recovery', methods=['GET'])
 def fire_recovery():
-    global _FIRE_STATUS
     status_msg = "fire_recovery okey"
-    _FIRE_STATUS = 'fire_recovery'
+    _DB.set('fire', 'fire_recovery')
     app.logger.debug(status_msg)
     return status_msg, 200
 
 @app.route('/gas_alarm', methods=['GET'])
 def gas_alarm():
-    global _GAS_STATUS
     status_msg = "gas_alarm okey"
-    _GAS_STATUS = 'gas_alarm'
+    _DB.set('gas', 'gas_alarm')
     app.logger.debug(status_msg)
     return status_msg, 200
 
 @app.route('/gas_recovery', methods=['GET'])
 def gas_recovery():
-    global _GAS_STATUS
     status_msg = "gas_recovery okey"
-    _GAS_STATUS = 'gas_recovery'
+    _DB.set('gas', 'gas_recovery')
     app.logger.debug(status_msg)
     return status_msg, 200
 
 @app.route('/reset', methods=['GET'])
 def reset():
-    global _FIRE_STATUS,_GAS_STATUS
     status_msg = "reset okey"
-    _FIRE_STATUS = 'fire_recovery'
-    _GAS_STATUS = 'gas_recovery'
+    _DB.set('fire', 'fire_recovery')
+    _DB.set('gas', 'gas_recovery')
     app.logger.debug(status_msg)
     return status_msg, 200
 
@@ -68,5 +64,7 @@ if __name__ == '__main__':
     handler.setLevel(logging.INFO)
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
+    _DB.set('fire', 'fire_recovery')
+    _DB.set('gas', 'gas_recovery')
     CORS(app)
-    app.run(host='0.0.0.0', port=9006, debug=True)
+    app.run(host='0.0.0.0', port=9006, debug=True, threaded=True)

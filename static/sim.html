@@ -20,10 +20,26 @@
                 }
             });
         });
-
         $("#fire_recovery").click(function () {
             $.ajax({
                 url: BASE_URL + 'fire_recovery',
+                success: function (result) {
+                    $("#result").html(result);
+                }
+            });
+        });
+        $("#gas_alarm").click(function () {
+            $.ajax({
+                url: BASE_URL + 'gas_alarm',
+                success: function (result) {
+                    $("#result").html(result);
+                }
+            });
+        });
+
+        $("#gas_recovery").click(function () {
+            $.ajax({
+                url: BASE_URL + 'gas_recovery',
                 success: function (result) {
                     $("#result").html(result);
                 }
@@ -41,18 +57,24 @@
                 <button id="fire_alarm" type="button" class="btn btn-danger btn-lg">화재발생!!!</button>
             </div>
             <div class="col">
-                    <button id="fire_recovery" type="button" class="btn btn-success btn-lg"> Fire Recovery</button>
+                <button id="fire_recovery" type="button" class="btn btn-success btn-lg"> Fire Recovery</button>
+            </div>
+            <div class="col">
+                <button id="gas_alarm" type="button" class="btn btn-danger btn-lg">Gas Alarm !</button>
+            </div>
+            <div class="col">
+                <button id="gas_recovery" type="button" class="btn btn-success btn-lg"> Gas Recovery</button>
             </div>
             <div class="col">
             </div>
         </div>
-       <br>
+        <br>
         <div class="row">
-                <div id="result" class="col"/>
+            <div id="result" class="col" />
         </div>
     </div>
-   
-       
+
+
 </body>
 
 </html>
