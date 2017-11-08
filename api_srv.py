@@ -20,41 +20,16 @@ def status():
     app.logger.debug(status_msg)
     return status_msg, 200
 
-@app.route('/fire_alarm', methods=['GET'])
-def fire_alarm():
-    status_msg = "fire_alarm okey"
-    _DB.set('fire', 'fire_alarm')
-    app.logger.debug(status_msg)
-    return status_msg, 200
-
-@app.route('/fire_recovery', methods=['GET'])
-def fire_recovery():
-    status_msg = "fire_recovery okey"
-    _DB.set('fire', 'fire_recovery')
-    app.logger.debug(status_msg)
-    return status_msg, 200
-
-@app.route('/gas_alarm', methods=['GET'])
-def gas_alarm():
-    status_msg = "gas_alarm okey"
-    _DB.set('gas', 'gas_alarm')
-    app.logger.debug(status_msg)
-    return status_msg, 200
-
-@app.route('/gas_recovery', methods=['GET'])
-def gas_recovery():
-    status_msg = "gas_recovery okey"
-    _DB.set('gas', 'gas_recovery')
-    app.logger.debug(status_msg)
-    return status_msg, 200
-
-@app.route('/reset', methods=['GET'])
-def reset():
-    status_msg = "reset okey"
-    _DB.set('fire', 'fire_recovery')
-    _DB.set('gas', 'gas_recovery')
-    app.logger.debug(status_msg)
-    return status_msg, 200
+@app.route('/command/<status>')
+def command(status):
+    if 'fire' in status:
+        _DB.set('fire', status)
+    if 'gas' in status:
+        _DB.set('gas', status)
+    if 'reset' in status:
+        _DB.set('fire', 'fire_recovery')
+        _DB.set('gas', 'gas_recovery')
+    return status, 200
 
 if __name__ == '__main__':
     LOG_FILENAME = './tel_api_srv.log'
