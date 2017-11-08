@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-import sqlite3
 import logging
 import sys
 from flask import Flask
 from flask_cors import CORS
-from types import NoneType
-import pandas as pd
 import pickledb
 
 # init key-value store
