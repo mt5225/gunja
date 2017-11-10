@@ -6,6 +6,7 @@ var subwayPortManager = {};
 var subwayPortManager1 = {};
 var subwayPortManager2 = {};
 var subwayPortManager3 = {};
+var current_layer = "outside";
 
 camera.zoomLimit = Vector2(4, 500);
 // object.find("Interlayer").pickEnabled = false;
@@ -218,13 +219,13 @@ function isshow() {
 		camera.cam.backgroundColor = Color(R / 255, G / 255, B / 255);
 
 		if (obj.ClsID == ObjectFactory.CLSID_FLOORPLAN) {
-
+            current_layer = "inside";
 			if (ui_btn.findToggle("Toggle").isOn) {
 				showTable();
 			}
 
 		} else if (obj.ClsID == ObjectFactory.CLSID_BUILDING) {
-
+            current_layer = "outside";
 			concealTable();
 		}
 
@@ -483,7 +484,7 @@ function show_banner_and_effect(obj) {
 				T_Banner_List[obj.getProperty("name")] = banner_ui;
 			}
 		});
-		if (FloorPlan.current.name != "B1" && FloorPlan.current.name != "B2" && FloorPlan.current.name != "B1") {
+		if (current_layer == "outside") {
 			intoBuilding();
 		}
 		util.setTimeout(function () {
