@@ -227,6 +227,8 @@ function isshow() {
 		} else if (obj.ClsID == ObjectFactory.CLSID_BUILDING) {
             current_layer = "outside";
 			concealTable();
+		} else if (obj.ClsID == ObjectFactory.CLSID_WORLD) {
+			current_layer = "outside";
 		}
 
 		//检测视点面板是否开启ViewPointUI.IsShowViewPintUI()
